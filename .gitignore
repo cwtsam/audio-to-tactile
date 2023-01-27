@@ -29,4 +29,5 @@ perf.data*
 *.bak
 # Ignore bazel outputs.
 bazel-*
-
+*.DS_Store
+*.Rhistory

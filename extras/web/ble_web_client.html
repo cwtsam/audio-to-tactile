@@ -33,6 +33,14 @@ limitations under the License.
         disabled="true">Bootload mode</button>
   </div>
 
+  <h1>Play Buzzes at Frequency: </h1>
+  <div id="playtonePanel">
+    <button id="playtoneButton"
+      onclick="bleInstance.requestPlay(document.getElementById('buzzFrequency').value)">Play</button><br>
+    <legend class="frequencyLegend">Frequency (Hz)</legend>
+    <input id="buzzFrequency" type="text" value="10" maxlength="16">
+  </div>
+
   <h1>Battery voltage: </h1>
   <h2 id="batteryVoltage">Waiting for battery voltage...</h2>
 

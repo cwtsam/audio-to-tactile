@@ -465,6 +465,68 @@ class BleManager {
         ]));
   }
 
+  requestPlayAtFrequency() {
+    if (!this.connected) { return; }
+
+    // Convert tactor indices to channel indices.
+    let channel1 = this.channelData[1].source;
+    let channel2 = this.channelData[2].source;
+    let channel3 = this.channelData[3].source;
+    let channel4 = this.channelData[4].source;
+    let channel5 = this.channelData[5].source;
+    let channel6 = this.channelData[6].source;
+    let channel7 = this.channelData[7].source;
+    let channel8 = this.channelData[8].source;
+    let channel9 = this.channelData[9].source;
+    
+    
+    this.writeMessage(
+      MESSAGE_TYPE_TACTILE_EX_PATTERN,
+      new Uint8Array([ // (15-byte payload)
+        // Set gain on channel1.
+        //TACTILE_PATTERN_OP_SET_GAIN + channel1,
+        //Math.round(Math.max(0.0, Math.min(1.0, 1.0)) * 255),
+        // Play 250 Hz tone on channel1 for 400 ms.
+        TACTILE_PATTERN_OP_SET_WAVEFORM + channel1,
+        TACTILE_PATTERN_WAVEFORM_SIN250HZ,
+        TACTILE_PATTERN_OP_SET_WAVEFORM + channel2,
+        TACTILE_PATTERN_WAVEFORM_SIN250HZ,
+        TACTILE_PATTERN_OP_SET_WAVEFORM + channel3,
+        TACTILE_PATTERN_WAVEFORM_SIN250HZ,
+        TACTILE_PATTERN_OP_SET_WAVEFORM + channel4,
+        TACTILE_PATTERN_WAVEFORM_SIN250HZ,
+        TACTILE_PATTERN_OP_SET_WAVEFORM + channel5,
+        TACTILE_PATTERN_WAVEFORM_SIN250HZ,
+        TACTILE_PATTERN_OP_SET_WAVEFORM + channel6,
+        TACTILE_PATTERN_WAVEFORM_SIN250HZ,
+        TACTILE_PATTERN_OP_SET_WAVEFORM + channel7,
+        TACTILE_PATTERN_WAVEFORM_SIN250HZ,
+        TACTILE_PATTERN_OP_SET_WAVEFORM + channel8,
+        TACTILE_PATTERN_WAVEFORM_SIN250HZ,
+        TACTILE_PATTERN_OP_SET_WAVEFORM + channel9,
+        TACTILE_PATTERN_WAVEFORM_SIN250HZ,
+        //tactilePatternOpPlayMs(10),
+        tactilePatternOpPlayMs((1/freq)*1000),
+        // 300 ms pause.
+        //tactilePatternOpPlayMs(300),
+      ]));
+    
+  }
+
+  requestPlay(freq){
+    //setTimeout(() => {
+    //  this.requestPlayAtFrequency(freq);
+      //console.log("Delayed for 1 second.");
+    //}, 1000);
+   var myinterval = setInterval(() => this.requestPlayAtFrequency(),(1/freq)*1000);
+   setTimeout(() => {
+      clearInterval(myinterval);
+      //console.log("Delayed for 1 second.");
+    }, 1000*60*3);
+   
+   //setTimeout(clearInterval(myinterval),10000);
+  }
+
   /** Send a request to device to update channel gains. */
   requestSetChannelGainUpdate(c1, c2) {
     this.requestSetChannelMapOrGainUpdate([c1, c2],
